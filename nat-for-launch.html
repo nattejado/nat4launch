@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Nat Tejado for Launch</title>
+<meta name="description" content="Three personally-sourced pre-seed deals for Launch. Built by Nat Tejado." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface-2: #1c1c1c;
+    --border: #262626;
+    --border-light: #333;
+    --text: #fafafa;
+    --text-muted: #a3a3a3;
+    --text-dim: #6b6b6b;
+    --accent: #ff6b1a;
+    --accent-soft: rgba(255,107,26,0.12);
+    --accent-glow: rgba(255,107,26,0.2);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+  /* ---------- STARFIELD with Launch's orange glow ---------- */
+  .starfield {
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      radial-gradient(ellipse at 50% 110%, rgba(255,107,26,0.25) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% -10%, rgba(80,30,10,0.4) 0%, transparent 40%),
+      #0a0a0a;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .starfield::before, .starfield::after {
+    content: ''; position: absolute; inset: -50%; width: 200%; height: 200%;
+    background-image:
+      radial-gradient(2.5px 2.5px at 20% 30%, rgba(255,255,255,1), transparent),
+      radial-gradient(2px 2px at 60% 70%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(3px 3px at 80% 10%, rgba(255,255,255,1), transparent),
+      radial-gradient(2px 2px at 30% 80%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(3.5px 3.5px at 70% 40%, rgba(255,255,255,1), transparent),
+      radial-gradient(2px 2px at 10% 60%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(2.5px 2.5px at 90% 90%, rgba(255,255,255,1), transparent),
+      radial-gradient(3px 3px at 45% 25%, rgba(255,255,255,0.95), transparent),
+      radial-gradient(2px 2px at 55% 55%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(2px 2px at 15% 45%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(3.5px 3.5px at 85% 60%, rgba(255,255,255,1), transparent),
+      radial-gradient(2px 2px at 35% 5%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(2.5px 2.5px at 75% 85%, rgba(255,255,255,0.95), transparent),
+      radial-gradient(3px 3px at 5% 25%, rgba(255,255,255,1), transparent),
+      radial-gradient(2px 2px at 50% 90%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(2.5px 2.5px at 25% 15%, rgba(255,255,255,1), transparent),
+      radial-gradient(2px 2px at 95% 35%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(3px 3px at 40% 60%, rgba(255,255,255,0.95), transparent);
+    background-size: 280px 280px;
+    background-repeat: repeat;
+    animation: drift 120s linear infinite, twinkle 4s ease-in-out infinite;
+    opacity: 0.7;
+  }
+  .starfield::after {
+    background-size: 460px 460px;
+    animation: drift 200s linear infinite reverse, twinkle 6s ease-in-out infinite 1s;
+    opacity: 0.5;
+  }
+  @keyframes drift {
+    from { transform: translate(0, 0); }
+    to { transform: translate(-280px, -200px); }
+  }
+  @keyframes twinkle {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.4); }
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- NAV ---------- */
+  nav.top {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(10,10,10,0.78);
+    border-bottom: 1px solid var(--border);
+  }
+  nav.top .inner {
+    max-width: 1240px; margin: 0 auto; padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 15px; letter-spacing: -0.01em;
+  }
+  .logo-mark {
+    width: 28px; height: 28px; border-radius: 7px;
+    background: linear-gradient(135deg, #ff6b1a, #ff3d00);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 900; font-size: 14px;
+  }
+  nav.top .links { display: flex; gap: 28px; font-size: 13.5px; color: var(--text-muted); }
+  nav.top .links a:hover { color: var(--text); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    max-width: 1240px; margin: 0 auto; padding: 80px 32px 80px;
+    position: relative;
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px;
+    align-items: center;
+  }
+  @media (max-width: 920px) {
+    .hero { grid-template-columns: 1fr; padding-top: 60px; }
+  }
+  .hero::before {
+    content: ''; position: absolute;
+    top: 0; right: 0; transform: translate(20%, -10%);
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+    z-index: -1; opacity: 0.6;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 999px;
+    background: var(--accent-soft); border: 1px solid rgba(255,107,26,0.25);
+    color: var(--accent); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.02em; text-transform: uppercase;
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  h1.hero-title {
+    margin-top: 24px;
+    font-size: clamp(40px, 5.5vw, 72px);
+    line-height: 1.05; letter-spacing: -0.025em;
+    font-weight: 800; max-width: 900px;
+  }
+  h1.hero-title em {
+    font-style: normal;
+    background: linear-gradient(90deg, #ff6b1a, #ff8a4c);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    margin-top: 28px; font-size: 19px; line-height: 1.6;
+    color: var(--text-muted); max-width: 720px;
+  }
+  .hero-stats {
+    margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+  }
+  .hero-stat {
+    background: var(--surface); padding: 28px 24px;
+  }
+  .hero-stat .num {
+    font-size: 32px; font-weight: 800; letter-spacing: -0.02em;
+  }
+  .hero-stat .num em {
+    font-style: normal; color: var(--accent);
+  }
+  .hero-stat .label {
+    margin-top: 4px; font-size: 12px; color: var(--text-dim);
+    text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600;
+  }
+  @media (max-width: 720px) {
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ---------- SECTIONS ---------- */
+  section.bay {
+    max-width: 1240px; margin: 0 auto; padding: 96px 32px;
+  }
+  .section-header {
+    margin-bottom: 56px;
+  }
+  .section-eyebrow {
+    color: var(--accent); font-size: 13px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(32px, 4vw, 52px); font-weight: 800;
+    line-height: 1.1; letter-spacing: -0.02em;
+    max-width: 800px;
+  }
+  .section-sub {
+    margin-top: 20px; font-size: 17px; color: var(--text-muted);
+    max-width: 720px; line-height: 1.65;
+  }
+
+  /* ---------- COMPANY CARDS ---------- */
+  .companies { display: flex; flex-direction: column; gap: 24px; }
+  .company {
+    background: linear-gradient(135deg, rgba(50,28,15,0.7) 0%, rgba(20,15,12,0.8) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,107,26,0.15);
+    border-radius: 20px; overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .company:hover {
+    border-color: rgba(255,107,26,0.35);
+    box-shadow: 0 0 60px rgba(255,107,26,0.1);
+  }
+  .company.featured {
+    background: linear-gradient(135deg, rgba(70,38,18,0.85) 0%, rgba(30,20,15,0.9) 100%);
+    border: 1px solid rgba(255,107,26,0.4);
+    box-shadow: 0 0 80px rgba(255,107,26,0.15);
+  }
+  .company-head {
+    padding: 32px 36px;
+    display: grid; grid-template-columns: 1fr auto; gap: 24px;
+    align-items: center; cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .company-head:hover { background: rgba(255,255,255,0.015); }
+  .company.open .company-head { border-bottom-color: var(--border); }
+  .company-rank {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--text-dim); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .company.featured .company-rank { color: var(--accent); }
+  .company h3 {
+    margin-top: 10px; font-size: 32px; font-weight: 800;
+    letter-spacing: -0.02em; line-height: 1.1;
+  }
+  .company .tagline {
+    margin-top: 10px; font-size: 16px; color: var(--text-muted);
+    max-width: 640px; line-height: 1.55;
+  }
+  .company-meta {
+    margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .chip {
+    padding: 4px 10px; border-radius: 6px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    font-size: 12px; color: var(--text-muted); font-weight: 500;
+  }
+  .chip.warm { background: var(--accent-soft); border-color: rgba(255,107,26,0.25); color: var(--accent); }
+  .toggle {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); flex-shrink: 0;
+    transition: all 0.2s ease;
+  }
+  .company-head:hover .toggle { background: var(--accent-soft); color: var(--accent); border-color: rgba(255,107,26,0.3); }
+  .company.open .toggle { background: var(--accent); border-color: var(--accent); color: white; transform: rotate(45deg); }
+  .toggle svg { width: 20px; height: 20px; }
+
+  .company-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+  .company.open .company-body { max-height: 5000px; }
+  .company-body-inner { padding: 8px 36px 40px; }
+
+  .research-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    margin-top: 24px;
+  }
+  @media (max-width: 880px) { .research-grid { grid-template-columns: 1fr; } }
+  .research-block { }
+  .research-label {
+    font-size: 11px; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .research-block p, .research-block li {
+    color: var(--text-muted); font-size: 14.5px; line-height: 1.7;
+  }
+  .research-block strong { color: var(--text); font-weight: 600; }
+  .research-block ul { list-style: none; padding: 0; }
+  .research-block ul li {
+    padding-left: 18px; position: relative; margin-bottom: 6px;
+  }
+  .research-block ul li::before {
+    content: ''; position: absolute; left: 0; top: 10px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); opacity: 0.7;
+  }
+  .pitch-box {
+    margin-top: 32px;
+    padding: 24px 28px; border-radius: 14px;
+    background: linear-gradient(135deg, rgba(255,107,26,0.08), rgba(255,107,26,0.02));
+    border: 1px solid rgba(255,107,26,0.2);
+  }
+  .pitch-box .label {
+    font-size: 11px; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;
+  }
+  .pitch-box p {
+    font-size: 16px; line-height: 1.6; color: var(--text); font-weight: 500;
+  }
+  .pitch-box em {
+    font-style: normal; color: var(--accent); font-weight: 600;
+  }
+  .links-row {
+    margin-top: 28px; display: flex; flex-wrap: wrap; gap: 12px;
+  }
+  .link-btn {
+    padding: 10px 16px; border-radius: 10px;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    font-size: 13px; color: var(--text-muted); font-weight: 500;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.2s ease;
+  }
+  .link-btn:hover {
+    background: var(--accent-soft); color: var(--accent);
+    border-color: rgba(255,107,26,0.3);
+  }
+  .link-btn svg { width: 14px; height: 14px; }
+
+  /* ---------- NETWORK SECTION ---------- */
+  .network {
+    background: var(--surface);
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 56px 48px;
+    margin-top: 32px;
+  }
+  .network h3 {
+    font-size: 28px; font-weight: 800; letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  .network h3 em {
+    font-style: normal; color: var(--accent);
+  }
+  .network p {
+    margin-top: 16px; font-size: 16px; color: var(--text-muted);
+    max-width: 700px; line-height: 1.7;
+  }
+
+  /* ---------- TOOL SECTION ---------- */
+  .tool-card {
+    background: linear-gradient(135deg, rgba(70,38,18,0.7) 0%, rgba(20,15,12,0.8) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,107,26,0.25); border-radius: 24px;
+    padding: 48px; display: grid; grid-template-columns: 1fr auto; gap: 32px;
+    align-items: center;
+    box-shadow: 0 0 60px rgba(255,107,26,0.1);
+  }
+  @media (max-width: 720px) { .tool-card { grid-template-columns: 1fr; } }
+  .tool-card h3 {
+    font-size: 28px; font-weight: 800; letter-spacing: -0.015em;
+  }
+  .tool-card p {
+    margin-top: 12px; color: var(--text-muted); font-size: 15.5px;
+    max-width: 580px; line-height: 1.65;
+  }
+  .cta {
+    padding: 16px 28px; border-radius: 12px;
+    background: linear-gradient(135deg, #ff6b1a, #ff3d00);
+    color: white; font-weight: 700; font-size: 14.5px;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 8px 24px rgba(255,107,26,0.25);
+  }
+  .cta:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(255,107,26,0.35); }
+  .cta svg { width: 16px; height: 16px; }
+
+  /* ---------- 30 DAY PLAN ---------- */
+  .plan-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  @media (max-width: 980px) { .plan-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .plan-grid { grid-template-columns: 1fr; } }
+  .plan-col {
+    background: linear-gradient(135deg, rgba(50,28,15,0.6) 0%, rgba(20,15,12,0.7) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,107,26,0.15);
+    border-radius: 16px; padding: 28px 24px;
+    transition: all 0.3s ease;
+  }
+  .plan-col:hover { border-color: rgba(255,107,26,0.35); }
+  .plan-col .week-label {
+    color: var(--accent); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .plan-col h4 {
+    margin-top: 8px; font-size: 18px; font-weight: 700;
+    line-height: 1.3; letter-spacing: -0.01em;
+  }
+  .plan-col ul {
+    margin-top: 18px; list-style: none; padding: 0;
+  }
+  .plan-col ul li {
+    padding-left: 20px; position: relative;
+    font-size: 13.5px; color: var(--text-muted);
+    line-height: 1.6; margin-bottom: 10px;
+  }
+  .plan-col ul li::before {
+    content: ''; position: absolute; left: 0; top: 8px;
+    width: 8px; height: 1px; background: var(--accent);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    border-top: 1px solid var(--border); margin-top: 80px;
+    padding: 48px 32px; text-align: center;
+  }
+  footer .signoff {
+    font-size: 16px; max-width: 600px; margin: 0 auto;
+    color: var(--text-muted); line-height: 1.7;
+  }
+  footer .signoff strong { color: var(--text); }
+  footer .meta {
+    margin-top: 24px; font-size: 13px; color: var(--text-dim);
+  }
+  footer a.email {
+    color: var(--accent); font-weight: 500;
+  }
+
+  /* ---------- CONSTELLATION ---------- */
+  .constellation {
+    position: relative;
+    width: 100%; aspect-ratio: 1/1;
+    max-width: 520px; margin-left: auto;
+  }
+  .orbit-ring {
+    position: absolute; top: 50%; left: 50%;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+  .orbit-1 { width: 56%; height: 56%; }
+  .orbit-2 { width: 92%; height: 92%; }
+
+  .center-mark {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 110px; height: 110px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #2a2a2a, #0a0a0a);
+    border: 1px solid rgba(255,107,26,0.4);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 0 80px rgba(255,107,26,0.4), inset 0 0 40px rgba(255,107,26,0.12);
+    z-index: 5;
+  }
+  .center-mark .n-img {
+    width: 100%; height: 100%; object-fit: cover;
+    object-position: center center;
+    display: block;
+    transform: scale(2);
+    transform-origin: center center;
+  }
+
+  /* planet: orbits center with proper rotation pattern */
+  .planet {
+    position: absolute; top: 50%; left: 50%;
+    margin: -42px 0 0 -42px; /* center the planet on its anchor */
+    text-decoration: none; z-index: 3;
+    cursor: pointer;
+    width: 84px; height: 84px;
+  }
+  .planet.dealprint {
+    animation: orbit-1 28s linear infinite;
+  }
+  .planet.gigstack {
+    animation: orbit-2 42s linear infinite;
+  }
+  .planet.landor {
+    animation: orbit-2 42s linear infinite -14s;
+  }
+  /* Inner orbit radius = 28% of 520 = ~145px */
+  @keyframes orbit-1 {
+    from { transform: rotate(0deg) translateX(145px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(145px) rotate(-360deg); }
+  }
+  /* Outer orbit radius = 46% of 520 = ~240px */
+  @keyframes orbit-2 {
+    from { transform: rotate(180deg) translateX(240px) rotate(-180deg); }
+    to { transform: rotate(-180deg) translateX(240px) rotate(180deg); }
+  }
+
+  .planet .disc {
+    width: 84px; height: 84px; border-radius: 50%;
+    overflow: hidden; position: relative;
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5), 0 0 40px rgba(255,107,26,0.12);
+    transition: all 0.3s ease;
+  }
+  .planet .disc img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .planet .disc .fallback {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 26px; color: #fff;
+    background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+  }
+  .planet:hover .disc {
+    border-color: var(--accent);
+    box-shadow: 0 0 40px rgba(255,107,26,0.7), 0 0 80px rgba(255,107,26,0.3);
+    transform: scale(1.08);
+  }
+  .planet .name {
+    position: absolute; top: 92px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px; color: var(--text-muted); font-weight: 700;
+    letter-spacing: 0.08em;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.95);
+    white-space: nowrap;
+  }
+  .planet:hover .name { color: var(--accent); }
+
+  .planet.dealprint { --brand-1: #fafafa; --brand-2: #e5e5e5; }
+  .planet.dealprint .disc { background: #fafafa; }
+  .planet.dealprint .disc .fallback { color: #0a0a0a; background: #fafafa; }
+  .planet.gigstack { --brand-1: #4338ca; --brand-2: #6366f1; }
+  .planet.gigstack .disc { background: linear-gradient(135deg, #4338ca, #6366f1); }
+  .planet.landor { --brand-1: #b45309; --brand-2: #ea580c; }
+  .planet.landor .disc { background: linear-gradient(135deg, #b45309, #ea580c); }
+
+  @media (max-width: 720px) {
+    .constellation { max-width: 360px; margin: 32px auto 0; }
+    .center-mark { width: 76px; height: 76px; }
+    .center-mark .n { font-size: 28px; }
+    .planet, .planet .disc { width: 60px; height: 60px; }
+    .planet { margin: -30px 0 0 -30px; }
+    .planet .name { top: 66px; font-size: 11px; }
+    @keyframes orbit-1 {
+      from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+      to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+    }
+    @keyframes orbit-2 {
+      from { transform: rotate(180deg) translateX(165px) rotate(-180deg); }
+      to { transform: rotate(-180deg) translateX(165px) rotate(180deg); }
+    }
+  }
+
+  /* ---------- EVIDENCE / PHOTOS ---------- */
+  .evidence {
+    margin-top: 48px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    max-width: 880px; margin-left: auto; margin-right: auto;
+  }
+  @media (max-width: 720px) { .evidence { grid-template-columns: repeat(2, 1fr); max-width: 100%; } }
+  .photo-card {
+    position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(255,107,26,0.22);
+    background: rgba(40,25,15,0.5);
+    aspect-ratio: 4/3;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 24px rgba(255,107,26,0.08), 0 8px 24px rgba(0,0,0,0.35);
+  }
+  .photo-card:hover {
+    border-color: rgba(255,107,26,0.55); transform: translateY(-3px);
+    box-shadow: 0 0 36px rgba(255,107,26,0.18), 0 14px 32px rgba(0,0,0,0.5);
+  }
+  .photo-card img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    z-index: 1;
+  }
+  .photo-placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: rgba(255,107,26,0.7); font-size: 10px; font-weight: 600;
+    background: repeating-linear-gradient(45deg, rgba(60,30,15,0.7), rgba(60,30,15,0.7) 8px, rgba(40,20,10,0.7) 8px, rgba(40,20,10,0.7) 16px);
+    z-index: 0; gap: 4px; text-align: center; padding: 8px;
+  }
+  .photo-placeholder::before { content: '+'; font-size: 22px; opacity: 0.8; line-height: 1; }
+  .photo-card .caption {
+    z-index: 2;
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 10px 12px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.92));
+    font-size: 11px; color: var(--text);
+    line-height: 1.4;
+  }
+  .photo-card .caption strong { color: var(--accent); font-weight: 600; }
+
+  /* ---------- TRACK RECORD ---------- */
+  .track-record {
+    margin-bottom: 40px;
+    padding: 32px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(50,28,15,0.5) 0%, rgba(20,15,12,0.7) 100%);
+    border: 1px solid rgba(255,107,26,0.15);
+  }
+  .tr-header { margin-bottom: 24px; }
+  .tr-eyebrow {
+    color: var(--accent); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;
+  }
+  .tr-title { font-size: 22px; font-weight: 700; letter-spacing: -0.015em; }
+  .tr-sub { margin-top: 8px; font-size: 14px; color: var(--text-muted); }
+  .tr-grid {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    margin-top: 8px;
+  }
+  .tr-chip {
+    padding: 8px 14px 8px 8px; border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,107,26,0.18);
+    color: var(--text); font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .tr-chip:hover {
+    background: rgba(255,107,26,0.12);
+    border-color: rgba(255,107,26,0.5);
+    color: var(--accent);
+  }
+  .tr-chip .tr-logo {
+    width: 22px; height: 22px; border-radius: 5px;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; flex-shrink: 0;
+  }
+  .tr-chip .tr-logo img { width: 100%; height: 100%; object-fit: contain; padding: 2px; }
+  .tr-chip svg.ext { width: 11px; height: 11px; opacity: 0.5; }
+
+  /* ---------- CREATOR SECTION ---------- */
+  .creator {
+    margin-top: 56px;
+    padding: 36px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(50,28,15,0.5) 0%, rgba(20,15,12,0.7) 100%);
+    border: 1px solid rgba(255,107,26,0.18);
+  }
+  .creator h4 {
+    font-size: 24px; font-weight: 700; letter-spacing: -0.015em;
+  }
+  .creator h4 em { font-style: normal; color: var(--accent); }
+  .creator p {
+    margin-top: 10px; color: var(--text-muted); font-size: 15px;
+    max-width: 640px; line-height: 1.65;
+  }
+  .creator-grid {
+    margin-top: 20px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+    max-width: 360px;
+  }
+  @media (max-width: 720px) { .creator-grid { max-width: 100%; } }
+  .creator-photo {
+    position: relative; aspect-ratio: 3/4;
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(255,107,26,0.22);
+    background: rgba(40,25,15,0.6);
+    box-shadow: 0 0 24px rgba(255,107,26,0.08), 0 8px 24px rgba(0,0,0,0.35);
+    transition: all 0.3s ease;
+  }
+  .creator-photo:hover {
+    border-color: rgba(255,107,26,0.55);
+    box-shadow: 0 0 36px rgba(255,107,26,0.18), 0 14px 32px rgba(0,0,0,0.5);
+  }
+  .creator-photo img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    z-index: 1;
+  }
+  .creator-photo .caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 8px 10px; z-index: 2;
+    background: linear-gradient(transparent, rgba(0,0,0,0.92));
+    font-size: 10.5px; color: var(--text); line-height: 1.35;
+  }
+  .creator-photo .caption strong { color: var(--accent); font-weight: 600; }
+  .creator-placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: rgba(255,107,26,0.7); font-size: 11px; font-weight: 600;
+    background: repeating-linear-gradient(45deg, rgba(60,30,15,0.7), rgba(60,30,15,0.7) 8px, rgba(40,20,10,0.7) 8px, rgba(40,20,10,0.7) 16px);
+    z-index: 0; gap: 4px; text-align: center; padding: 8px;
+  }
+  .creator-placeholder::before { content: '+'; font-size: 24px; opacity: 0.8; line-height: 1; }
+
+  /* ---------- ABOUT ME ---------- */
+  .about {
+    background: linear-gradient(135deg, rgba(255,107,26,0.06), transparent);
+    border: 1px solid rgba(255,107,26,0.15);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+  }
+  .about .tag {
+    color: var(--accent); font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;
+  }
+  .about h4 {
+    font-size: 22px; font-weight: 700; letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+  .about p {
+    margin-top: 12px; color: var(--text-muted); font-size: 15px;
+    line-height: 1.7; max-width: 760px;
+  }
+  .about p strong { color: var(--text); }
+
+  /* ---------- UTILITY ---------- */
+  .divider {
+    height: 1px; background: var(--border);
+    max-width: 1240px; margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="starfield"></div>
+
+<!-- NAV -->
+<nav class="top">
+  <div class="inner">
+    <div class="logo">
+      <div class="logo-mark">N</div>
+      <span>Nat Tejado <span style="color: var(--text-dim); font-weight: 500;">· for Launch</span></span>
+    </div>
+    <div class="links">
+      <a href="#picks">Picks</a>
+      <a href="#network">Network</a>
+      <a href="#tool">Tool</a>
+      <a href="#plan">About</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-content">
+    <span class="eyebrow"><span class="dot"></span>Researcher follow-up · May 2026</span>
+    <h1 class="hero-title">Three founders I know personally.<br><em>And what I bring to the table.</em></h1>
+    <p class="hero-sub">
+      I took your advice. Instead of changing your landing page, I put together a deal package the way a Launch researcher actually would. Sourced from my own network, deeply researched, and shipped with a working scanner tool I built over the weekend.
+    </p>
+  </div>
+
+  <!-- CONSTELLATION -->
+  <div class="constellation">
+    <div class="orbit-ring orbit-1"></div>
+    <div class="orbit-ring orbit-2"></div>
+    <div class="center-mark"><img src="battery.jpg" alt="Nat" class="n-img" /></div>
+
+    <a href="https://dealprint.io" target="_blank" rel="noopener" class="planet dealprint">
+      <div class="disc">
+        <img src="https://www.google.com/s2/favicons?domain=dealprint.io&sz=128" alt="Dealprint" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+        <div class="fallback" style="display:none">DP</div>
+      </div>
+      <div class="name">DEALPRINT</div>
+    </a>
+
+    <a href="https://gigstack.pro" target="_blank" rel="noopener" class="planet gigstack">
+      <div class="disc">
+        <img src="https://www.google.com/s2/favicons?domain=gigstack.pro&sz=128" alt="Gigstack" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+        <div class="fallback" style="display:none">GS</div>
+      </div>
+      <div class="name">GIGSTACK</div>
+    </a>
+
+    <a href="https://www.landorestate.com" target="_blank" rel="noopener" class="planet landor">
+      <div class="disc">
+        <img src="https://www.google.com/s2/favicons?domain=landorestate.com&sz=128" alt="Landor Estate" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+        <div class="fallback" style="display:none">LE</div>
+      </div>
+      <div class="name">LANDOR</div>
+    </a>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<!-- PICKS SECTION -->
+<section class="bay" id="picks">
+  <div class="section-header">
+    <div class="section-eyebrow">The three picks</div>
+    <h2 class="section-title">Deals from inside my network. Click any to see the research.</h2>
+    <p class="section-sub">
+      All three founders are people I know personally. I'm not cold-emailing them, I'm warm-introducing them. Different geographies, different sectors, all riding the same vertical-AI-for-SMB wave Launch is well-positioned to ride. I bring a multicultural background and the right network. My network spans US accelerator alumni, LATAM operators, and founder-investor circles in both regions.
+    </p>
+  </div>
+
+  <div class="companies">
+
+    <!-- DEALPRINT -->
+    <article class="company featured" id="dealprint">
+      <div class="company-head" onclick="toggle('dealprint')">
+        <div>
+          <span class="company-rank">★ Lead pick · the closest fit to Launch's check</span>
+          <h3>DEALPRINT</h3>
+          <p class="tagline">AI-native due diligence platform for SMB M&amp;A. Surfaces red flags, auto-generates document requests, benchmarks valuations off 50K+ comparables. The tool Launch itself could use on its own deal flow.</p>
+          <div class="company-meta">
+            <span class="chip warm">⚡ Personal connection</span>
+            <span class="chip">San Francisco</span>
+            <span class="chip">Post-Berkeley SkyDeck · Limited Release Nov 2025</span>
+            <span class="chip">Vertical AI · M&amp;A</span>
+          </div>
+        </div>
+        <div class="toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></div>
+      </div>
+      <div class="company-body">
+        <div class="company-body-inner">
+          <div class="research-grid">
+            <div class="research-block">
+              <div class="research-label">Founders</div>
+              <p><strong>Sebastian Krappe</strong>, CEO and co-founder. Columbia '19 (BA Sustainable Development). Career in investment banking and private equity, completed numerous M&amp;A transactions across industries before founding Dealprint.</p>
+              <p style="margin-top:14px"><strong>Robert O'Brien</strong>, CTO and co-founder. Columbia classmate. Former Goldman Sachs engineer building the trading infrastructure that processed billions in transactions. The two have a decade-long collaboration since undergrad.</p>
+            </div>
+            <div class="research-block">
+              <div class="research-label">Product</div>
+              <ul>
+                <li>AI agents scour data rooms and surface red flags</li>
+                <li>Auto-generated document request lists tailored to lenders and investors</li>
+                <li>Data-driven valuations off a corpus of 50K+ comparable SMB transactions</li>
+                <li>Bank-grade security, no customer data used to train models</li>
+                <li>Workflow customization for individual investor playbooks</li>
+              </ul>
+            </div>
+            <div class="research-block">
+              <div class="research-label">Stage &amp; traction</div>
+              <p>Graduated <strong>Berkeley SkyDeck Pad-13</strong>, batches 20 and 21. <strong>Won the pitch competition</strong> at the end of Batch 20. Limited Release went live November 2025. Likely just-closed or actively raising a pre-seed or seed round, exactly Launch's check window.</p>
+            </div>
+            <div class="research-block">
+              <div class="research-label">Market</div>
+              <p>$2.5B SMB M&amp;A market with a multi-decade secular tailwind: the Boomer ownership succession wave is forcing millions of US SMBs to change hands over the next 15 years, and every transaction needs diligence. Today that's done in Excel by overworked associates. Dealprint is the agent layer.</p>
+            </div>
+          </div>
+          <div class="pitch-box">
+            <div class="label">Why Launch, the punchy version</div>
+            <p>Most candidates pitch Launch a deal Launch could write a check into. <em>I'm pitching one Launch should both invest in AND use internally.</em> A researcher who points the firm at a tool that compounds the firm's own throughput is a different kind of hire than a researcher who just brings deals.</p>
+          </div>
+          <div class="links-row">
+            <a class="link-btn" href="https://dealprint.io" target="_blank" rel="noopener">Visit dealprint.io <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
+            <a class="link-btn" href="https://www.linkedin.com/in/sebastian-krappe-637236139/" target="_blank" rel="noopener">Sebastian's LinkedIn</a>
+            <a class="link-btn" href="https://www.crunchbase.com/organization/dealprint" target="_blank" rel="noopener">Crunchbase</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- GIGSTACK -->
+    <article class="company" id="gigstack">
+      <div class="company-head" onclick="toggle('gigstack')">
+        <div>
+          <span class="company-rank">02 · LATAM access · 500 LatAm graduate</span>
+          <h3>GIGSTACK</h3>
+          <p class="tagline">LATAM's fiscal automation OS. Generates Mexican electronic invoices (CFDIs) for every payment received, and just shipped Soma AI, agentic invoicing via Claude MCP. $600M+ USD in sales already automated.</p>
+          <div class="company-meta">
+            <span class="chip warm">⚡ Personal connection</span>
+            <span class="chip">Mexico City · Colombia · Chile · US</span>
+            <span class="chip">500 LatAm Somos Lucha Batch 17</span>
+            <span class="chip">Vertical AI · Fiscal infra</span>
+          </div>
+        </div>
+        <div class="toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></div>
+      </div>
+      <div class="company-body">
+        <div class="company-body-inner">
+          <div class="research-grid">
+            <div class="research-block">
+              <div class="research-label">Founders</div>
+              <p><strong>Santiago Carrancá</strong>, CEO and co-founder. Cal State San Marcos, full-stack engineer. <strong>4x founder</strong>: built Worqlab, UpLearningCo, and Flority before this. Started his first business teaching computer skills at age 16. The wedge for Gigstack came from automating his own fiscal pain.</p>
+              <p style="margin-top:14px"><strong>Gabriel Paredes</strong>, co-founder. <strong>Mariana Hernández Barreto</strong>, co-founder and CMO.</p>
+            </div>
+            <div class="research-block">
+              <div class="research-label">Traction (the punchy part)</div>
+              <ul>
+                <li><strong>$600M+ USD</strong> in customer sales automated through the platform</li>
+                <li><strong>2,000+ paying companies</strong> across LATAM</li>
+                <li>Customers include <strong>Domino's Mexico, Burger King Mexico, Clivi</strong> (Mexican healthtech unicorn), <strong>500 Startups themselves</strong>, Lapzo, Leadsales, Hubb, Mundo Joven, Delta Protect</li>
+                <li>Already operating in Mexico, Colombia, Chile, with US localization page now live</li>
+              </ul>
+            </div>
+            <div class="research-block">
+              <div class="research-label">The AI angle</div>
+              <p><strong>Soma AI</strong> generates valid CFDIs from natural-language prompts or uploaded contracts. They've integrated with Claude via MCP, letting an agent invoice on your behalf, with SAT compliance baked in. This is exactly the agentic-commerce thesis from Chamath's substack #182 (Stripe Link for agents, Shared Payment Tokens), but for LATAM compliance infrastructure, where the regulatory moat is real.</p>
+            </div>
+            <div class="research-block">
+              <div class="research-label">Stage &amp; ask</div>
+              <p>500 LatAm Batch 17 graduate. 500 Global is on the cap table. Likely raising or recently closed a proper seed. Probably past Launch's $25K to $500K window for a primary check, but a perfect <strong>Syndicate write-in</strong> on their next round. Exactly the kind of "I have access you don't" deal a researcher with LATAM relationships brings.</p>
+            </div>
+          </div>
+          <div class="pitch-box">
+            <div class="label">Why this is the LATAM read</div>
+            <p>Launch invests in 100 companies a year, almost all US-domiciled. <em>I have a direct line to a 4x founder who's built the compliance infrastructure layer for the fastest-growing tech ecosystem in the Americas.</em> The Syndicate writes into companies like Gigstack. The researcher who knows them gets that deal.</p>
+          </div>
+          <div class="links-row">
+            <a class="link-btn" href="https://gigstack.pro" target="_blank" rel="noopener">Visit gigstack.pro <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
+            <a class="link-btn" href="https://www.linkedin.com/in/scarranca/" target="_blank" rel="noopener">Santiago's LinkedIn</a>
+            <a class="link-btn" href="https://500.co/content/500-lat-am-welcomes-batch-17-startups-to-its-somos-lucha-program" target="_blank" rel="noopener">500 LatAm Batch 17</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- LANDOR ESTATE -->
+    <article class="company" id="landor">
+      <div class="company-head" onclick="toggle('landor')">
+        <div>
+          <span class="company-rank">03 · Earliest-stage · The bootstrapped one</span>
+          <h3>LANDOR ESTATE</h3>
+          <p class="tagline">Mexican proptech. Property management OS for landlords, tenants, and brokers, with digital contracts, automated rent collection, broker marketplace, Uber-style on-demand maintenance. iOS + Android live.</p>
+          <div class="company-meta">
+            <span class="chip warm">⚡ Personal connection</span>
+            <span class="chip">CDMX (Reforma 799)</span>
+            <span class="chip">Profitable · Bootstrapped · Pre-institutional</span>
+            <span class="chip">Proptech · LATAM</span>
+          </div>
+        </div>
+        <div class="toggle"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"/></svg></div>
+      </div>
+      <div class="company-body">
+        <div class="company-body-inner">
+          <div class="research-grid">
+            <div class="research-block">
+              <div class="research-label">Founder</div>
+              <p><strong>Juan Pablo Ortiz Lando</strong>, Founder and CEO. <strong>Tecnológico de Monterrey</strong>, started his first business at age 16. Today running a profitable, bootstrapped startup in CDMX. Quote: "facing the same challenges like uncertainty and an environment that sometimes discourages more than it encourages." Operator-builder energy.</p>
+            </div>
+            <div class="research-block">
+              <div class="research-label">Product</div>
+              <ul>
+                <li>Property management for owners, tenants, brokers in one app</li>
+                <li>Automated rent collection &amp; payment links</li>
+                <li>Digital contracts with secure e-sign + auto-renewals</li>
+                <li>Broker marketplace, properties promoted across registered brokers</li>
+                <li>Uber-style on-demand maintenance</li>
+                <li>Tenant background checks built in</li>
+              </ul>
+            </div>
+            <div class="research-block">
+              <div class="research-label">Why it's worth tracking</div>
+              <p>This is the <strong>earliest-stage</strong> company of the three. Bootstrapped, profitable, no institutional money yet. The thesis mirror is <strong>AveryIQ</strong> (YC W2024 Austin proptech) but in a market US VCs can't price. If Landor decides to raise institutionally, Launch's check size is the right size for them, and the warm intro from me means the meeting happens.</p>
+            </div>
+            <div class="research-block">
+              <div class="research-label">Honest read</div>
+              <p>Smaller, less venture-scale story than Dealprint or Gigstack. Site is Wix-built, no public customer logos. I'm including it because <strong>(1)</strong> I know Juan Pablo personally and can get the meeting, <strong>(2)</strong> it shows I'm tracking the Mexican proptech wedge, and <strong>(3)</strong> the kind of pre-seed Latin American proptech founder Launch should be talking to looks exactly like this.</p>
+            </div>
+          </div>
+          <div class="pitch-box">
+            <div class="label">Why this is the earliest-stage read</div>
+            <p>Most candidates only show you sexy seed-stage companies. <em>I'm also showing you the founder who hasn't raised yet but should, in a market we don't currently source from.</em> That's where pre-seed researchers actually earn their keep.</p>
+          </div>
+          <div class="links-row">
+            <a class="link-btn" href="https://www.landorestate.com" target="_blank" rel="noopener">Visit landorestate.com <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg></a>
+            <a class="link-btn" href="https://www.linkedin.com/in/juan-pablo-ortiz-lando-494866219/" target="_blank" rel="noopener">Juan Pablo's LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+</section>
+
+<div class="divider"></div>
+
+<!-- TOOL SECTION -->
+<section class="bay" id="tool">
+  <div class="section-header">
+    <div class="section-eyebrow">The tool</div>
+    <h2 class="section-title">LaunchPad, a scanner I built over the weekend.</h2>
+  </div>
+
+  <div class="tool-card">
+    <div>
+      <h3>Open LaunchPad</h3>
+      <p>Sortable, filterable, scoreable dealflow board. Pre-seeded with 13 companies pulled across YC, local press, VC portfolio scans, and my own network. Mark deals "Champion / Follow up / Pass" with state persisting locally. Add your own. Loom of me walking through it is included in the email.</p>
+    </div>
+    <a href="LaunchPad.html" class="cta">
+      Launch the tool
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+    </a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 30 DAY PLAN -->
+<section class="bay" id="plan">
+  <div class="section-header">
+    <div class="section-eyebrow">What you're hiring</div>
+    <h2 class="section-title">Engineer. Operator. Builder. Content creator.</h2>
+  </div>
+
+  <div class="about">
+    <div class="tag">About me. Built things, not just decks.</div>
+    <h4>Engineer. Operator. Sourcing already, just on a different deal sheet.</h4>
+    <p>
+      Engineer with delivery: <strong>~2 MWh of renewable energy installed</strong>, a business built from zero, and a current role at a Mexican EPC where I research partnerships and ship the AI tools my team uses every day.
+    </p>
+    <p style="margin-top:10px">
+      I know founders at the energy frontier (<strong>Overview Energy</strong>, <strong>Reach</strong>, <strong>Heron Power</strong> among them) and have a LATAM-and-US network most pre-seed researchers can't access. The perspective Launch gets: <strong>I understand AI bottlenecks at different scales</strong>, from compute and grid down to team workflow. Ready to be on the other side of the table.
+    </p>
+  </div>
+
+  <!-- TRACK RECORD: EPC companies sourced -->
+  <div class="track-record">
+    <div class="tr-header">
+      <div class="tr-eyebrow">Track record</div>
+      <h4 class="tr-title">Sourced and researched at scale. Different sector, same playbook.</h4>
+      <p class="tr-sub">Companies I've evaluated and partnered with at my current EPC role. Eight of many.</p>
+    </div>
+    <div class="tr-grid">
+      <a href="https://www.naradapower.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/naradapower.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Narada<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.hitachienergy.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/hitachienergy.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Hitachi Energy<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.tgnenergy.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/tgnenergy.com" alt="" onerror="this.parentElement.style.display='none'"/></span>TGN Energy<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.hithium.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/hithium.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Hithium<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.norhybrid.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/norhybrid.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Norhybrid<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.heliatek.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/heliatek.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Heliatek<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.bluesunpv.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/bluesunpv.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Bluesun Solar<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.zoeenergia.mx" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/zoeenergia.mx" alt="" onerror="this.parentElement.style.display='none'"/></span>ZOE Energía<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+    </div>
+  </div>
+
+
+  <!-- EVIDENCE / NETWORK PHOTOS -->
+  <div class="evidence" id="network" style="margin-top:48px">
+    <div class="photo-card">
+      <img src="berkeley.jpg" alt="" onerror="this.style.display='none'"/>
+      <div class="photo-placeholder">drop<br/>berkeley.jpg</div>
+      <div class="caption"><strong>UC Berkeley, Sutardja Center.</strong> Frontier founder network, kept alive in person.</div>
+    </div>
+    <div class="photo-card">
+      <img src="frontier-tower.jpg" alt="" onerror="this.style.display='none'"/>
+      <div class="photo-placeholder">drop<br/>frontier-tower.jpg</div>
+      <div class="caption"><strong>Frontier Tower, SF.</strong> On stage talking "vibe investing." Plugged into the SF operator circle.</div>
+    </div>
+    <div class="photo-card">
+      <img src="circe.jpg" alt="" onerror="this.style.display='none'"/>
+      <div class="photo-placeholder">drop<br/>circe.jpg</div>
+      <div class="caption"><strong>Circe.</strong> Direct line into the women-founder community most VCs can't access.</div>
+    </div>
+    <div class="photo-card">
+      <img src="godmother.jpg" alt="" onerror="this.style.display='none'"/>
+      <div class="photo-placeholder">drop<br/>godmother.jpg</div>
+      <div class="caption"><strong>The godmother of Silicon Valley</strong> told me she hasn't retired because she's been on more yachts and beaches than I ever will, and they're boring. I think she's right.</div>
+    </div>
+    <div class="photo-card">
+      <img src="dragons-den.jpg" alt="" onerror="this.style.display='none'"/>
+      <div class="photo-placeholder">drop<br/>dragons-den.jpg</div>
+      <div class="caption"><strong>Pitching Sean O'Sullivan</strong> (SOSV, ex-Dragons' Den). Already comfortable in the room.</div>
+    </div>
+    <div class="photo-card">
+      <img src="marc.jpg" alt="" onerror="this.style.display='none'"/>
+      <div class="photo-placeholder">drop<br/>marc.jpg</div>
+      <div class="caption"><strong>Mark Cuban.</strong> I asked if he's running for president. He laughed.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="signoff">
+    Thanks for the conversation last week. Whether or not this is the right hire, the deals are real and the intros are open. <strong>Sebastian, Santiago, and Juan Pablo can all be on a Zoom with Launch this week.</strong>
+  </p>
+  <p class="meta">
+    Nat Tejado · Austin · <a class="email" href="mailto:natejado@gmail.com">natejado@gmail.com</a>
+  </p>
+</footer>
+
+<script>
+  function toggle(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+  // Auto-open lead pick on load
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('dealprint').classList.add('open');
+  });
+</script>
+</body>
+</html>

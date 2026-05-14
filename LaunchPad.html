@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LaunchPad — Pre-Seed Dealflow Scanner for Launch VC</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
+  .scoring-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 600;
+  }
+  .score-bar { height: 6px; border-radius: 3px; background: #e5e7eb; overflow: hidden; }
+  .score-bar-fill { height: 100%; transition: width 0.3s ease; }
+  .deal-card { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+  .deal-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.08); }
+  .champion { background: linear-gradient(135deg, #fefce8 0%, #fff7ed 100%); border-color: #facc15 !important; }
+  .pass { opacity: 0.55; }
+  .followup { border-color: #60a5fa !important; }
+  .pulse-dot { animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+</style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+<!-- Header -->
+<header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">L</div>
+      <div>
+        <h1 class="text-lg font-bold tracking-tight">LaunchPad</h1>
+        <p class="text-xs text-gray-500 -mt-0.5">Pre-Seed Dealflow Scanner · Built for Launch VC</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-4 text-sm">
+      <span class="text-gray-500">v0.1 prototype · <span class="pulse-dot text-green-500">●</span> live data</span>
+      <button onclick="document.getElementById('add-deal-modal').classList.remove('hidden')" class="bg-gray-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-800 transition">+ Add Deal</button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="bg-white border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 py-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div>
+        <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Deals scanned</p>
+        <p class="text-3xl font-bold mt-1" id="stat-total">—</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Avg Launch-fit score</p>
+        <p class="text-3xl font-bold mt-1" id="stat-avg">—</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Champion candidates</p>
+        <p class="text-3xl font-bold mt-1 text-yellow-600" id="stat-champion">—</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold">Personal network</p>
+        <p class="text-3xl font-bold mt-1 text-orange-600" id="stat-personal">—</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Filter / Chart Row -->
+<section class="max-w-7xl mx-auto px-6 py-6">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Filters -->
+    <div class="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-5">
+      <h2 class="text-sm font-semibold text-gray-700 mb-3">Filter & sort</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div>
+          <label class="text-xs text-gray-500 block mb-1">Sort by</label>
+          <select id="sort-by" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <option value="score">Launch-fit score</option>
+            <option value="recent">Recency</option>
+            <option value="stage">Stage (earliest first)</option>
+            <option value="name">Name (A→Z)</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 block mb-1">Source channel</label>
+          <select id="filter-source" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <option value="all">All sources</option>
+            <option value="Personal network">Personal network</option>
+            <option value="YC directory">YC directory</option>
+            <option value="Local press">Local press</option>
+            <option value="VC portfolio scan">VC portfolio scan</option>
+            <option value="Product Hunt">Product Hunt</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 block mb-1">Geography</label>
+          <select id="filter-geo" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <option value="all">All</option>
+            <option value="Austin">Austin</option>
+            <option value="US (other)">US (other)</option>
+            <option value="Mexico">Mexico</option>
+            <option value="LATAM (other)">LATAM (other)</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-gray-500 block mb-1">Min. score</label>
+          <select id="filter-score" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <option value="0">Any</option>
+            <option value="5">≥ 5</option>
+            <option value="6.5">≥ 6.5</option>
+            <option value="8">≥ 8 (champion-tier)</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-4">
+        <input id="search" type="text" placeholder="Search company, founder, sector…" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="bg-white rounded-xl border border-gray-200 p-5">
+      <h2 class="text-sm font-semibold text-gray-700 mb-3">Score distribution</h2>
+      <div class="h-40">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Methodology -->
+<section class="max-w-7xl mx-auto px-6 -mt-2 mb-4">
+  <details class="bg-orange-50 border border-orange-200 rounded-xl px-5 py-3">
+    <summary class="cursor-pointer text-sm font-semibold text-orange-900">Scoring methodology (click to expand)</summary>
+    <div class="mt-3 text-sm text-orange-900 space-y-2">
+      <p>Each deal is scored 0–10 across five Launch-thesis dimensions. Final score is a weighted average. Heuristics are intentionally transparent — the goal is fast triage of inbound + cold sourcing, not autonomous decisions.</p>
+      <ul class="list-disc pl-5 space-y-1">
+        <li><span class="font-semibold">Stage fit (25%):</span> Is this a pre-seed/seed where Launch's $25K–$500K check is welcome?</li>
+        <li><span class="font-semibold">Software / SMB lean (20%):</span> Software-first, SMB- or prosumer-facing? Launch dislikes hard biotech / heavy infra.</li>
+        <li><span class="font-semibold">AI-native (20%):</span> Is AI core to the wedge? Agentic > model-thin wrapper.</li>
+        <li><span class="font-semibold">Founder signal (20%):</span> Domain depth, prior exits, network density, builder energy.</li>
+        <li><span class="font-semibold">Inbound vector (15%):</span> Can Launch credibly meet them? Austin proximity, personal warm intro, accelerator pedigree.</li>
+      </ul>
+    </div>
+  </details>
+</section>
+
+<!-- Deal Cards -->
+<section class="max-w-7xl mx-auto px-6 pb-12">
+  <div id="deals" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  <div id="empty-state" class="hidden text-center text-gray-400 py-12">No deals match the current filters.</div>
+</section>
+
+<!-- Add deal modal -->
+<div id="add-deal-modal" class="hidden fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full p-6">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-bold">Add a deal</h2>
+      <button onclick="document.getElementById('add-deal-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-700">✕</button>
+    </div>
+    <form id="add-form" class="space-y-3">
+      <input name="name" placeholder="Company name" class="w-full border rounded-lg px-3 py-2 text-sm" required>
+      <input name="founder" placeholder="Founder(s)" class="w-full border rounded-lg px-3 py-2 text-sm">
+      <textarea name="oneliner" placeholder="One-line description" class="w-full border rounded-lg px-3 py-2 text-sm" rows="2"></textarea>
+      <div class="grid grid-cols-2 gap-3">
+        <input name="stage" placeholder="Stage (e.g., Pre-seed $1.5M)" class="border rounded-lg px-3 py-2 text-sm">
+        <input name="geo" placeholder="Geography (e.g., Austin)" class="border rounded-lg px-3 py-2 text-sm">
+      </div>
+      <input name="source" placeholder="Source channel (e.g., Personal network)" class="w-full border rounded-lg px-3 py-2 text-sm">
+      <div class="grid grid-cols-5 gap-2 pt-2">
+        <div><label class="text-xs">Stage</label><input type="number" min="0" max="10" name="s1" value="6" class="w-full border rounded px-2 py-1 text-sm"></div>
+        <div><label class="text-xs">SaaS</label><input type="number" min="0" max="10" name="s2" value="6" class="w-full border rounded px-2 py-1 text-sm"></div>
+        <div><label class="text-xs">AI</label><input type="number" min="0" max="10" name="s3" value="6" class="w-full border rounded px-2 py-1 text-sm"></div>
+        <div><label class="text-xs">Founder</label><input type="number" min="0" max="10" name="s4" value="6" class="w-full border rounded px-2 py-1 text-sm"></div>
+        <div><label class="text-xs">Inbound</label><input type="number" min="0" max="10" name="s5" value="6" class="w-full border rounded px-2 py-1 text-sm"></div>
+      </div>
+      <button type="submit" class="w-full bg-gray-900 text-white py-2 rounded-lg font-medium hover:bg-gray-800">Score and add</button>
+    </form>
+  </div>
+</div>
+
+<footer class="border-t border-gray-200 bg-white py-6 mt-12">
+  <div class="max-w-7xl mx-auto px-6 text-xs text-gray-500 flex flex-wrap justify-between gap-3">
+    <span>LaunchPad prototype · pre-seed scanner · built by Nat Tejado for Launch VC</span>
+    <span>State persisted locally · refresh-safe</span>
+  </div>
+</footer>
+
+<script>
+// ============== DATA ==============
+// Seeded with real companies pulled from research. Each scored on 5 Launch-thesis dimensions.
+const STORAGE_KEY = 'launchpad_state_v1';
+
+const SEED = [
+  {
+    id: 'dealprint',
+    name: 'DEALPRINT',
+    oneliner: 'AI-native due diligence platform for SMB M&A. Surfaces red flags, auto-builds diligence checklists, benchmarks valuations off 50K+ comparables.',
+    founder: 'Sebastian Krappe (CEO, ex-IB/PE, Columbia \'19); Robert O\'Brien (CTO, ex-Goldman engineer)',
+    stage: 'Post-accelerator · Limited Release (Nov 2025)',
+    geo: 'US (other)', // San Francisco
+    location: 'San Francisco, CA',
+    source: 'Personal network',
+    sector: 'Vertical AI · M&A',
+    accelerator: 'Berkeley SkyDeck Pad-13 (B20+B21, won pitch comp)',
+    note: 'Tool Launch itself could use on its own dealflow. Founder pedigree is pristine.',
+    scores: { stage: 9, saas: 10, ai: 10, founder: 9, inbound: 10 },
+    added: '2026-05-12'
+  },
+  {
+    id: 'gigstack',
+    name: 'Gigstack',
+    oneliner: 'LATAM\'s fiscal automation OS. Auto-generates CFDIs (Mexican electronic invoices) for every payment. AI invoicing via "Soma" + Claude MCP.',
+    founder: 'Santiago Carrancá (CEO, 4x founder); Gabriel Paredes; Mariana Hernández Barreto (CMO)',
+    stage: '500 LatAm Batch 17 graduate · raising',
+    geo: 'Mexico',
+    location: 'Mexico City',
+    source: 'Personal network',
+    sector: 'LATAM vertical AI · Fiscal infra',
+    accelerator: '500 Global / 500 Somos Lucha (Batch 17)',
+    note: '$600M+ USD in sales automated. Customers: Domino\'s MX, Burger King MX, Clivi, 500 Startups themselves, Lapzo, Leadsales. Multi-country (MX/CO/CL, US page live).',
+    scores: { stage: 7, saas: 9, ai: 9, founder: 9, inbound: 10 },
+    added: '2026-05-12'
+  },
+  {
+    id: 'landor',
+    name: 'Landor Estate',
+    oneliner: 'Mexican proptech — property management OS for landlords, tenants, and brokers. Digital contracts, auto-renewals, on-demand maintenance, tenant screening.',
+    founder: 'Juan Pablo Ortiz Lando (CEO, Tec de Monterrey, founded at 16)',
+    stage: 'Bootstrapped · profitable · pre-institutional',
+    geo: 'Mexico',
+    location: 'CDMX (Reforma 799)',
+    source: 'Personal network',
+    sector: 'Proptech · LATAM',
+    accelerator: '—',
+    note: 'Smaller, scrappier proptech but founder is profitable and shipping. Mirror to AveryIQ but in Mexico.',
+    scores: { stage: 9, saas: 8, ai: 5, founder: 7, inbound: 10 },
+    added: '2026-05-12'
+  },
+  {
+    id: 'drillbit',
+    name: 'Drillbit',
+    oneliner: 'AI receptionist + LLM quoting + scheduling + payments for residential contractors. Vertical AI agent for HVAC, plumbing, remodelers.',
+    founder: 'YC S2024 founding team, ~10 employees',
+    stage: 'YC S2024 · post-batch seed range',
+    geo: 'Austin',
+    location: 'Austin, TX',
+    source: 'YC directory',
+    sector: 'Vertical AI · SMB services',
+    accelerator: 'Y Combinator S2024',
+    note: 'Public comp Avoca AI ($1B at Kleiner, also Austin, adjacent thesis). Drillbit is the pre-seed version.',
+    scores: { stage: 8, saas: 9, ai: 10, founder: 8, inbound: 9 },
+    added: '2026-05-10'
+  },
+  {
+    id: 'vulcan',
+    name: 'Vulcan Technologies',
+    oneliner: '"Intelligent legal cartography" — AI maps every US law, regulation, and court case. Govtech wedge mandated by Virginia EO 51.',
+    founder: 'YC S2025 founding team',
+    stage: 'YC S2025 · 6 employees',
+    geo: 'Austin',
+    location: 'Austin, TX',
+    source: 'YC directory',
+    sector: 'Vertical AI · Govtech',
+    accelerator: 'Y Combinator S2025',
+    note: '0 → state-mandated in 3 months. Govtech sales cycle is the risk for Launch.',
+    scores: { stage: 9, saas: 9, ai: 10, founder: 8, inbound: 8 },
+    added: '2026-05-10'
+  },
+  {
+    id: 'averyiq',
+    name: 'AveryIQ',
+    oneliner: 'AI property manager + leasing agent. Targets 300K third-party property management companies drowning in tenant tickets.',
+    founder: 'YC W2024 founding team, 3 employees',
+    stage: 'YC W2024 · seed range',
+    geo: 'Austin',
+    location: 'Austin, TX',
+    source: 'YC directory',
+    sector: 'Proptech AI',
+    accelerator: 'Y Combinator W2024',
+    note: 'Tight team. Mirror thesis to Landor but US market.',
+    scores: { stage: 8, saas: 9, ai: 9, founder: 7, inbound: 9 },
+    added: '2026-05-09'
+  },
+  {
+    id: 'era',
+    name: 'The New Era of Shopping',
+    oneliner: 'Makes brand catalogs discoverable + purchasable inside ChatGPT, Google AI Mode, Perplexity. Pure agentic-commerce infrastructure play.',
+    founder: 'Founding team (Presto + Alliance co-leads)',
+    stage: 'Pre-seed $1.4M (Feb 2026)',
+    geo: 'US (other)',
+    location: 'NYC',
+    source: 'VC portfolio scan',
+    sector: 'Agentic commerce',
+    accelerator: 'Alliance NYC',
+    note: 'Riding Chamath\'s substack thesis (Stripe SPTs, Link for agents). 5% of consumers ask AI what to buy today; projected 50%+ in 4 years.',
+    scores: { stage: 10, saas: 10, ai: 10, founder: 7, inbound: 6 },
+    added: '2026-05-08'
+  },
+  {
+    id: 'circuit',
+    name: 'Circuit',
+    oneliner: 'AI turns technical manuals into step-by-step workflows for manufacturing troubleshooting, quoting, and field work.',
+    founder: 'Tyson Tuttle (CEO, ex-Silicon Labs CEO)',
+    stage: 'Angel round $30M (Feb 2026) · pre-VC',
+    geo: 'Austin',
+    location: 'Austin, TX',
+    source: 'Local press',
+    sector: 'Industrial AI',
+    accelerator: '—',
+    note: 'Unusual: $30M angel round with Jim Breyer, Lew Cirne, Charlie Amato. Launch Syndicate could write in.',
+    scores: { stage: 5, saas: 8, ai: 9, founder: 10, inbound: 8 },
+    added: '2026-05-07'
+  },
+  {
+    id: 'ruli',
+    name: 'Ruli AI',
+    oneliner: 'AI-native legal intelligence for in-house counsel. Auto-doc, ops platform, ex-Meta/Google trust & safety + privacy team.',
+    founder: 'Bryan Lee (CEO)',
+    stage: 'Seed $6M (Nov 2025) · $8M total',
+    geo: 'Austin',
+    location: 'Austin, TX',
+    source: 'VC portfolio scan',
+    sector: 'Vertical AI · Legal',
+    accelerator: '—',
+    note: 'Album VC led, SignalFire participated. Past pre-seed but Launch Syndicate-eligible.',
+    scores: { stage: 6, saas: 9, ai: 9, founder: 8, inbound: 7 },
+    added: '2026-05-06'
+  },
+  {
+    id: 'yavendio',
+    name: 'YaVendió',
+    oneliner: 'AI virtual sales agents for LATAM SMBs selling impulse-buys via social. End-to-end chat-to-checkout. Doubled in 6 months, 100+ brands.',
+    founder: 'Founding team (Magma Partners lead)',
+    stage: 'Pre-seed $850K',
+    geo: 'LATAM (other)',
+    location: 'Mexico / Peru',
+    source: 'VC portfolio scan',
+    sector: 'Vertical AI · SMB commerce',
+    accelerator: '—',
+    note: 'Mirror thesis to Drillbit but for LATAM social commerce. Off most US VCs\' radar.',
+    scores: { stage: 10, saas: 9, ai: 9, founder: 7, inbound: 7 },
+    added: '2026-05-05'
+  },
+  {
+    id: 'michamba',
+    name: 'MiChamba',
+    oneliner: 'Turns WhatsApp into a digital management platform for LATAM businesses. SMBs operate from chat without retraining.',
+    founder: 'Founding team',
+    stage: 'Pre-seed $2.25M',
+    geo: 'Mexico',
+    location: 'Mexico City',
+    source: 'VC portfolio scan',
+    sector: 'WhatsApp-native SMB OS',
+    accelerator: '—',
+    note: 'WhatsApp is the operating system of LATAM commerce. Strong wedge.',
+    scores: { stage: 9, saas: 9, ai: 8, founder: 6, inbound: 6 },
+    added: '2026-05-05'
+  },
+  {
+    id: 'theta',
+    name: 'Theta Neurotech',
+    oneliner: 'Wearable seizure prediction (alerts up to 2 hrs ahead). Pivoting toward migraine/stroke prediction next.',
+    founder: 'Truman Pierson (CEO, 23, UChicago); Chris Fitz (Vanderbilt)',
+    stage: 'Pre-seed $2M (Nov 2025)',
+    geo: 'US (other)',
+    location: 'Chicago, IL',
+    source: 'Local press',
+    sector: 'Consumer neurotech',
+    accelerator: 'Vaark Ventures led',
+    note: 'Cool company but medical device path + hardware = off-thesis for Launch.',
+    scores: { stage: 9, saas: 4, ai: 7, founder: 9, inbound: 4 },
+    added: '2026-05-04'
+  },
+  {
+    id: 'soma',
+    name: 'Soma Energy',
+    oneliner: 'AI-optimized grid coordination for data centers. 2GW deployed, 5 DC customers including H5.',
+    founder: 'Ath Caramanolis (CEO, ex-AWS energy lead, scaled 10GW renewables); Mario Souto (CTO, ex-AWS ML); Henrique Hoeltgebaum (Chief AI)',
+    stage: 'Seed $7M (Apr 2026)',
+    geo: 'US (other)',
+    location: 'Vancouver, BC',
+    source: 'Local press',
+    sector: 'Energy / data center infra',
+    accelerator: 'Category Ventures led',
+    note: 'Important macro thesis (Chamath substack #182) but heavy infra = off Launch wheelhouse.',
+    scores: { stage: 6, saas: 4, ai: 8, founder: 10, inbound: 3 },
+    added: '2026-05-03'
+  }
+];
+
+// ============== STATE ==============
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch { return {}; }
+}
+function saveState(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+let userState = loadState();
+let extraDeals = userState.extraDeals || [];
+
+function getAllDeals() {
+  return [...SEED, ...extraDeals];
+}
+
+// ============== SCORING ==============
+const WEIGHTS = { stage: 0.25, saas: 0.20, ai: 0.20, founder: 0.20, inbound: 0.15 };
+function computeScore(s) {
+  return (s.stage * WEIGHTS.stage + s.saas * WEIGHTS.saas + s.ai * WEIGHTS.ai + s.founder * WEIGHTS.founder + s.inbound * WEIGHTS.inbound);
+}
+function scoreColor(score) {
+  if (score >= 8) return 'bg-green-500';
+  if (score >= 6.5) return 'bg-blue-500';
+  if (score >= 5) return 'bg-amber-500';
+  return 'bg-gray-400';
+}
+function dimColor(v) {
+  if (v >= 8) return '#22c55e';
+  if (v >= 6) return '#3b82f6';
+  if (v >= 4) return '#f59e0b';
+  return '#94a3b8';
+}
+
+// ============== RENDER ==============
+function render() {
+  const all = getAllDeals().map(d => ({ ...d, score: computeScore(d.scores), mark: userState[d.id]?.mark || null, notes: userState[d.id]?.notes || '' }));
+  applyFilters(all);
+}
+
+function applyFilters(all) {
+  const sort = document.getElementById('sort-by').value;
+  const src = document.getElementById('filter-source').value;
+  const geo = document.getElementById('filter-geo').value;
+  const minScore = parseFloat(document.getElementById('filter-score').value);
+  const q = (document.getElementById('search').value || '').toLowerCase();
+
+  let filtered = all
+    .filter(d => src === 'all' || d.source === src)
+    .filter(d => geo === 'all' || d.geo === geo)
+    .filter(d => d.score >= minScore)
+    .filter(d => {
+      if (!q) return true;
+      return (d.name + ' ' + d.founder + ' ' + d.sector + ' ' + d.oneliner + ' ' + d.location).toLowerCase().includes(q);
+    });
+
+  if (sort === 'score') filtered.sort((a,b) => b.score - a.score);
+  else if (sort === 'recent') filtered.sort((a,b) => b.added.localeCompare(a.added));
+  else if (sort === 'stage') filtered.sort((a,b) => b.scores.stage - a.scores.stage);
+  else if (sort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
+
+  document.getElementById('deals').innerHTML = filtered.map(renderCard).join('');
+  document.getElementById('empty-state').classList.toggle('hidden', filtered.length > 0);
+
+  // stats
+  document.getElementById('stat-total').textContent = all.length;
+  const avg = all.length ? (all.reduce((s,d) => s+d.score, 0) / all.length) : 0;
+  document.getElementById('stat-avg').textContent = avg.toFixed(1);
+  document.getElementById('stat-champion').textContent = all.filter(d => (userState[d.id]?.mark || null) === 'champion').length || all.filter(d => d.score >= 8).length;
+  document.getElementById('stat-personal').textContent = all.filter(d => d.source === 'Personal network').length;
+
+  updateChart(all);
+}
+
+function renderCard(d) {
+  const markClass = d.mark === 'champion' ? 'champion' : d.mark === 'pass' ? 'pass' : d.mark === 'followup' ? 'followup' : '';
+  const dimRow = (label, v) => `
+    <div class="flex items-center gap-2 text-xs">
+      <span class="text-gray-500 w-20 shrink-0">${label}</span>
+      <div class="score-bar flex-1"><div class="score-bar-fill" style="width:${v*10}%; background:${dimColor(v)}"></div></div>
+      <span class="text-gray-700 w-6 text-right font-medium">${v}</span>
+    </div>`;
+  return `
+  <div class="deal-card bg-white rounded-xl border-2 border-gray-200 p-5 flex flex-col ${markClass}" id="card-${d.id}">
+    <div class="flex items-start justify-between mb-2">
+      <div>
+        <h3 class="font-bold text-lg leading-tight">${d.name}</h3>
+        <p class="text-xs text-gray-500 mt-0.5">${d.location} · ${d.sector}</p>
+      </div>
+      <div class="flex flex-col items-end">
+        <div class="${scoreColor(d.score)} text-white px-3 py-1 rounded-lg font-bold text-base">${d.score.toFixed(1)}</div>
+        <span class="text-[10px] text-gray-400 mt-1">Launch-fit</span>
+      </div>
+    </div>
+    <p class="text-sm text-gray-700 leading-snug mt-2">${d.oneliner}</p>
+    <div class="mt-3 text-xs text-gray-600 space-y-1">
+      <p><span class="font-semibold text-gray-500">Founder:</span> ${d.founder}</p>
+      <p><span class="font-semibold text-gray-500">Stage:</span> ${d.stage}</p>
+      <p><span class="font-semibold text-gray-500">Source:</span> <span class="scoring-pill ${d.source === 'Personal network' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'}">${d.source}</span></p>
+    </div>
+    <div class="mt-3 space-y-1 pt-3 border-t border-gray-100">
+      ${dimRow('Stage fit', d.scores.stage)}
+      ${dimRow('Software', d.scores.saas)}
+      ${dimRow('AI-native', d.scores.ai)}
+      ${dimRow('Founder', d.scores.founder)}
+      ${dimRow('Inbound', d.scores.inbound)}
+    </div>
+    ${d.note ? `<p class="mt-3 text-xs italic text-gray-500 border-l-2 border-gray-200 pl-2">${d.note}</p>` : ''}
+    <div class="mt-auto pt-4 flex gap-2">
+      <button onclick="mark('${d.id}','champion')" class="flex-1 text-xs py-1.5 rounded-lg border ${d.mark === 'champion' ? 'bg-yellow-400 text-white border-yellow-400' : 'bg-white text-gray-700 border-gray-200 hover:bg-yellow-50'}">★ Champion</button>
+      <button onclick="mark('${d.id}','followup')" class="flex-1 text-xs py-1.5 rounded-lg border ${d.mark === 'followup' ? 'bg-blue-500 text-white border-blue-500' : 'bg-white text-gray-700 border-gray-200 hover:bg-blue-50'}">↻ Follow up</button>
+      <button onclick="mark('${d.id}','pass')" class="flex-1 text-xs py-1.5 rounded-lg border ${d.mark === 'pass' ? 'bg-gray-500 text-white border-gray-500' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}">Pass</button>
+    </div>
+  </div>`;
+}
+
+function mark(id, label) {
+  userState[id] = userState[id] || {};
+  if (userState[id].mark === label) { delete userState[id].mark; } else { userState[id].mark = label; }
+  saveState(userState);
+  render();
+}
+
+// ============== CHART ==============
+let chart;
+function updateChart(all) {
+  const buckets = { '0-4': 0, '4-5': 0, '5-6.5': 0, '6.5-8': 0, '8-10': 0 };
+  for (const d of all) {
+    const s = d.score;
+    if (s < 4) buckets['0-4']++;
+    else if (s < 5) buckets['4-5']++;
+    else if (s < 6.5) buckets['5-6.5']++;
+    else if (s < 8) buckets['6.5-8']++;
+    else buckets['8-10']++;
+  }
+  const ctx = document.getElementById('chart').getContext('2d');
+  const data = {
+    labels: Object.keys(buckets),
+    datasets: [{
+      data: Object.values(buckets),
+      backgroundColor: ['#cbd5e1','#94a3b8','#f59e0b','#3b82f6','#22c55e'],
+      borderRadius: 6
+    }]
+  };
+  if (chart) {
+    chart.data = data;
+    chart.update();
+  } else {
+    chart = new Chart(ctx, {
+      type: 'bar',
+      data,
+      options: {
+        plugins: { legend: { display: false } },
+        scales: { y: { ticks: { stepSize: 1 } }, x: { grid: { display: false } } },
+        responsive: true, maintainAspectRatio: false
+      }
+    });
+  }
+}
+
+// ============== EVENTS ==============
+['sort-by','filter-source','filter-geo','filter-score'].forEach(id => {
+  document.getElementById(id).addEventListener('change', render);
+});
+document.getElementById('search').addEventListener('input', render);
+
+document.getElementById('add-form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const f = e.target;
+  const newDeal = {
+    id: 'custom-' + Date.now(),
+    name: f.name.value,
+    founder: f.founder.value || '—',
+    oneliner: f.oneliner.value || '',
+    stage: f.stage.value || '—',
+    geo: f.geo.value || 'US (other)',
+    location: f.geo.value || '—',
+    source: f.source.value || 'Personal network',
+    sector: '—',
+    accelerator: '—',
+    note: '',
+    scores: { stage: +f.s1.value, saas: +f.s2.value, ai: +f.s3.value, founder: +f.s4.value, inbound: +f.s5.value },
+    added: new Date().toISOString().slice(0,10)
+  };
+  extraDeals.push(newDeal);
+  userState.extraDeals = extraDeals;
+  saveState(userState);
+  document.getElementById('add-deal-modal').classList.add('hidden');
+  f.reset();
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
