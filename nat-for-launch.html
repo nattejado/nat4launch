@@ -676,6 +676,13 @@
   }
   .creator-placeholder::before { content: '+'; font-size: 24px; opacity: 0.8; line-height: 1; }
 
+  /* internal divider inside .about box */
+  .about-divider {
+    margin: 28px 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,107,26,0.35), transparent);
+  }
+
   /* ---------- ABOUT ME ---------- */
   .about {
     background: linear-gradient(135deg, rgba(255,107,26,0.06), transparent);
@@ -953,78 +960,15 @@
 
 <div class="divider"></div>
 
-<!-- TOOL SECTION -->
-<section class="bay" id="tool">
-  <div class="section-header">
-    <div class="section-eyebrow">The tool</div>
-    <h2 class="section-title">LaunchPad, a scanner I built over the weekend.</h2>
-  </div>
-
-  <div class="tool-card">
-    <div>
-      <h3>Open LaunchPad</h3>
-      <p>Sortable, filterable, scoreable dealflow board. Pre-seeded with 13 companies pulled across YC, local press, VC portfolio scans, and my own network. Mark deals "Champion / Follow up / Pass" with state persisting locally. Add your own. Loom of me walking through it is included in the email.</p>
-    </div>
-    <a href="LaunchPad.html" class="cta">
-      Launch the tool
-      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-    </a>
-  </div>
-
-  <div class="tool-card" style="margin-top: 24px;">
-    <div>
-      <h3>Three people I'd put on TWIST</h3>
-      <p>A separate one-pager with three founders I'd recommend for the podcast, each tied to a trend I'm tracking: uploaded intelligence, decentralization, democratized data.</p>
-    </div>
-    <a href="twist-picks.html" class="cta">
-      See the picks
-      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-    </a>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- 30 DAY PLAN -->
+<!-- WHAT YOU'RE HIRING — header, then photos, then the box -->
 <section class="bay" id="plan">
   <div class="section-header">
     <div class="section-eyebrow">What you're hiring</div>
     <h2 class="section-title">Engineer. Operator. Builder. Content creator.</h2>
   </div>
 
-  <div class="about">
-    <div class="tag">About me. Built things, not just decks.</div>
-    <h4>Engineer. Operator. Sourcing already, just on a different deal sheet.</h4>
-    <p>
-      Engineer with delivery: <strong>~2 MWh of renewable energy installed</strong>, a business built from zero, and a current role at a Mexican EPC where I research partnerships and ship the AI tools my team uses every day.
-    </p>
-    <p style="margin-top:10px">
-      I know founders at the energy frontier (<strong>Overview Energy</strong>, <strong>Reach</strong>, <strong>Heron Power</strong> among them) and have a LATAM-and-US network most pre-seed researchers can't access. The perspective Launch gets: <strong>I understand AI bottlenecks at different scales</strong>, from compute and grid down to team workflow. Ready to be on the other side of the table.
-    </p>
-  </div>
-
-  <!-- TRACK RECORD: EPC companies sourced -->
-  <div class="track-record">
-    <div class="tr-header">
-      <div class="tr-eyebrow">Track record</div>
-      <h4 class="tr-title">Sourced and researched at scale. Different sector, same playbook.</h4>
-      <p class="tr-sub">Companies I've evaluated and partnered with at my current EPC role. Eight of many.</p>
-    </div>
-    <div class="tr-grid">
-      <a href="https://www.naradapower.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/naradapower.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Narada<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-      <a href="https://www.hitachienergy.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/hitachienergy.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Hitachi Energy<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-      <a href="https://www.tgnenergy.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/tgnenergy.com" alt="" onerror="this.parentElement.style.display='none'"/></span>TGN Energy<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-      <a href="https://www.hithium.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/hithium.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Hithium<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-      <a href="https://www.norhybrid.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/norhybrid.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Norhybrid<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-      <a href="https://www.heliatek.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/heliatek.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Heliatek<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-      <a href="https://www.bluesunpv.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/bluesunpv.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Bluesun Solar<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-      <a href="https://www.zoeenergia.mx" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/zoeenergia.mx" alt="" onerror="this.parentElement.style.display='none'"/></span>ZOE Energía<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
-    </div>
-  </div>
-
-
-  <!-- EVIDENCE / NETWORK PHOTOS -->
-  <div class="evidence" id="network" style="margin-top:48px">
+  <!-- network photos -->
+  <div class="evidence" id="network" style="margin-bottom: 48px;">
     <div class="photo-card">
       <img src="berkeley.jpg" alt="" onerror="this.style.display='none'"/>
       <div class="photo-placeholder">drop<br/>berkeley.jpg</div>
@@ -1055,6 +999,64 @@
       <div class="photo-placeholder">drop<br/>marc.jpg</div>
       <div class="caption"><strong>Mark Cuban.</strong> I asked if he's running for president. He laughed.</div>
     </div>
+  </div>
+
+  <div class="about">
+    <div class="tag">About me. Built things, not just decks.</div>
+    <h4>Engineer. Operator. Sourcing already, just on a different deal sheet.</h4>
+    <p>
+      Engineer with delivery: <strong>~2 MWh of renewable energy installed</strong>, a business built from zero, and a current role at a Mexican EPC where I research partnerships and ship the AI tools my team uses every day.
+    </p>
+    <p style="margin-top:10px">
+      I know founders at the energy frontier (<strong>Overview Energy</strong>, <strong>Reach</strong>, <strong>Heron Power</strong> among them) and have a LATAM-and-US network most pre-seed researchers can't access. The perspective Launch gets: <strong>I understand AI bottlenecks at different scales</strong>, from compute and grid down to team workflow. Ready to be on the other side of the table.
+    </p>
+
+    <div class="about-divider"></div>
+
+    <div class="tag" style="margin-bottom: 6px;">Track record</div>
+    <p style="margin-top:4px; margin-bottom:18px; font-size:14px;">Companies I've evaluated and partnered with at my current EPC role. Eight of many.</p>
+    <div class="tr-grid">
+      <a href="https://www.naradapower.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/naradapower.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Narada<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.hitachienergy.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/hitachienergy.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Hitachi Energy<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.tgnenergy.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/tgnenergy.com" alt="" onerror="this.parentElement.style.display='none'"/></span>TGN Energy<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.hithium.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/hithium.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Hithium<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.norhybrid.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/norhybrid.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Norhybrid<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.heliatek.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/heliatek.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Heliatek<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.bluesunpv.com" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/bluesunpv.com" alt="" onerror="this.parentElement.style.display='none'"/></span>Bluesun Solar<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+      <a href="https://www.zoeenergia.mx" target="_blank" rel="noopener" class="tr-chip"><span class="tr-logo"><img src="https://logo.clearbit.com/zoeenergia.mx" alt="" onerror="this.parentElement.style.display='none'"/></span>ZOE Energía<svg class="ext" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TOOL SECTION (now below) -->
+<section class="bay" id="tool">
+  <div class="section-header">
+    <div class="section-eyebrow">The tool</div>
+    <h2 class="section-title">LaunchPad, a scanner I built over the weekend.</h2>
+  </div>
+
+  <div class="tool-card">
+    <div>
+      <h3>Open LaunchPad</h3>
+      <p>Sortable, filterable, scoreable dealflow board. Pre-seeded with 13 companies pulled across YC, local press, VC portfolio scans, and my own network. Mark deals "Champion / Follow up / Pass" with state persisting locally. Add your own. Loom of me walking through it is included in the email.</p>
+    </div>
+    <a href="LaunchPad.html" class="cta">
+      Launch the tool
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+    </a>
+  </div>
+
+  <div class="tool-card" style="margin-top: 24px;">
+    <div>
+      <h3>Three people I'd put on TWIST</h3>
+      <p>A separate one-pager with three founders I'd recommend for the podcast, each tied to a trend I'm tracking: uploaded intelligence, decentralization, democratized data.</p>
+    </div>
+    <a href="twist-picks.html" class="cta">
+      See the picks
+      <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+    </a>
   </div>
 </section>
 
